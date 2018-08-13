@@ -51,7 +51,7 @@ export default function ssrMiddleware(options = {}) {
     manifestPath: null,
 
     // the graphql endpoint to connect to
-    graphqlEndpoint: null,
+    graphqlUri: null,
 
     ...options
   };
@@ -88,11 +88,8 @@ export default function ssrMiddleware(options = {}) {
       cache: new InMemoryCache(),
       link: createHttpLink({
         fetch,
-        uri: opts.graphqlEndpoint,
-        credentials: 'same-origin',
-        context: {
-          user: req.user
-        },
+        uri: opts.graphqlUri,
+        credentials: 'include',
         headers: {
           cookie: req.header('Cookie')
         }
