@@ -17,10 +17,6 @@ module.exports = {
     'ALGOLIA_SEARCH_KEY'
   ],
 
-  /* The identifier to use for css-modules.
-   */
-  cssModulesIdentifier: '[name]__[local]__[hash:base64:5]',
-
   // Webpack stats asset file. This file is created by webpack after asset
   // compilation and allows the server to reference the correct bundles.
   // The file is located relative to `webpack.config.output.path`. In dev mode,

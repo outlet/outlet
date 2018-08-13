@@ -28,7 +28,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: process.env.BASE_API_URL,
+  uri: process.env.GRAPHQL_BASE_URL,
   credentials: 'same-origin'
 });
 

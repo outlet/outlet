@@ -1,11 +1,12 @@
 import webpack from 'webpack';
-import baseConfig from './base.client';
+import baseConfig from './client.base';
 import CompressionPlugin from 'compression-webpack-plugin';
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import merge from 'webpack-merge';
 import config from '../config';
 
 export default merge(baseConfig, {
+  mode: 'production',
   output: {
     filename: '[name].[hash].js',
     chunkFilename: config.enableDynamicImports ? '[name].[hash].js' : undefined

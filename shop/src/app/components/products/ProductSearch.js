@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'rebass';
 import { debounce } from 'lodash';
-import classnames from 'classnames';
 
 const DEBOUNCE_TIMER = 300;
 
@@ -65,13 +64,12 @@ class ProductSearch extends Component {
   };
 
   render() {
-    const { className, loading } = this.props;
+    const { loading } = this.props;
     const { query } = this.state;
 
     return (
       <Input
         placeholder="Search..."
-        className={classnames(className)}
         onChange={this.handleSearchChange}
         onKeyPress={this.handleKeyPress}
         disabled={loading}

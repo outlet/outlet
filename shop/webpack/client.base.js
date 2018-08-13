@@ -1,19 +1,18 @@
 import yn from 'yn';
 import path from 'path';
 import webpack from 'webpack';
-// import ExtractCssChunks from 'extract-css-chunks-webpack-plugin';
+import ExtractCssChunks from 'extract-css-chunks-webpack-plugin';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { ReactLoadablePlugin } from 'react-loadable/webpack';
 import { mapValues, keyBy, filter } from 'lodash';
 import { _moduleAliases } from '../package.json';
-import babelOpts from './babel.config.client';
+import babelOpts from './client.babel.config';
 import * as config from '../config';
 
 const isDev = process.env.NODE_ENV === 'development';
-const cwd = process.cwd();
+const srcPath = path.resolve(__dirname, '..', 'src');
 const { enableDynamicImports, clientEnv } = config;
-// const { cssModulesIdentifier } = config;
 
 if (isDev) require('dotenv').load();
 
@@ -21,13 +20,13 @@ export const isSSR = yn(process.env.SSR) || false;
 export const analyzeBundle = yn(process.env.ANALYZE) || false;
 export const basePlugins = {
   reactLoadablePlugin: new ReactLoadablePlugin({
-    filename: path.join(cwd, 'react-loadable.json')
+    filename: path.join(srcPath, '..', 'react-loadable.json')
   }),
-  // extractCssChunksPlugin: new ExtractCssChunks({
-  //   filename: isDev ? '[name].css' : '[name].[id].css',
-  //   chunkFilename: '[id].css',
-  //   hot: isDev ? true : false
-  // }),
+  extractCssChunksPlugin: new ExtractCssChunks({
+    filename: isDev ? '[name].css' : '[name].[id].css',
+    chunkFilename: '[id].css',
+    hot: isDev ? true : false
+  }),
   definePlugin: new webpack.DefinePlugin({
     'process.env': mapValues(keyBy(clientEnv), env => {
       return JSON.stringify(process.env[env]);
@@ -43,8 +42,6 @@ const allowedPlugin = (plugin, key) => {
   switch (key) {
     case 'reactLoadablePlugin':
       return enableDynamicImports;
-    // case 'extractCssChunksPlugin':
-    //   return !isSSR;
     case 'bundleAnalyzerPlugin':
       return analyzeBundle;
     default:
@@ -120,8 +117,8 @@ const allowedPlugin = (plugin, key) => {
 // };
 
 export default {
-  context: path.resolve(cwd),
-  mode: isDev ? 'development' : 'production',
+  context: path.resolve(__dirname, '..', 'src'),
+  mode: 'development',
   entry: {
     app: ['./app/index']
   },
@@ -143,7 +140,7 @@ export default {
     }
   },
   output: {
-    path: path.join(cwd, '..', process.env.PUBLIC_OUTPUT_PATH),
+    path: path.join(srcPath, '..', process.env.PUBLIC_OUTPUT_PATH),
     filename: '[name].js',
     publicPath: process.env.PUBLIC_ASSET_PATH || '/assets/',
     chunkFilename: enableDynamicImports ? '[name].js' : undefined
@@ -151,7 +148,7 @@ export default {
   resolve: {
     extensions: ['.js', '.jsx', '.scss'],
     alias: mapValues(_moduleAliases, aliasPath =>
-      path.join(cwd, ...aliasPath.split('/'))
+      path.join(srcPath, ...aliasPath.split('/'))
     )
   },
   plugins: filter(basePlugins, allowedPlugin),
@@ -164,10 +161,10 @@ export default {
         options: babelOpts
       },
       // ...scssLoaderForEntryPoint('app'),
-      // {
-      //   test: /\.css$/,
-      //   use: [ExtractCssChunks.loader, 'css-loader', 'postcss-loader']
-      // },
+      {
+        test: /\.css$/,
+        use: [ExtractCssChunks.loader, 'css-loader']
+      },
       {
         test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
         use: [
