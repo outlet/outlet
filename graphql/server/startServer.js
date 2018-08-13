@@ -7,7 +7,7 @@ export default function startServer() {
     if (error) {
       console.error(error);
     } else {
-      console.info(`Saga GraphQL server mounted on port ${port}.`);
+      console.info(`Outlet GraphQL server mounted on port ${port}.`);
     }
   });
 }

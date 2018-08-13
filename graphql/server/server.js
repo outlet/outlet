@@ -12,6 +12,8 @@ import db from '@db/index';
 
 const env = process.env.NODE_ENV || 'development';
 const app = new express();
+const { ALLOWED_ORIGINS: allowed } = process.env;
+const origins = (allowed && allowed.split(',')) || 'http://localhost:3000';
 
 // New GraphQL server
 const server = new ApolloServer({
@@ -39,13 +41,12 @@ app.use(cookieParser());
 // Mount authentication middleware for JWT
 app.use(authMiddleware);
 
-// Apply app as middleware
+// Apply app as middleware with cors options
 server.applyMiddleware({
   app,
-  playground: {
-    settings: {
-
-    }
+  cors: {
+    credentials: true,
+    origin: origins
   }
 });
 
