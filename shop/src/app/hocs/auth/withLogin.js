@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import { GET_CURRENT_USER } from './withUser';
-import localStorage from '@lib/localStorage';
+import { localStorage } from '@lib';
 import gql from 'graphql-tag';
 
 export const LOGIN_MUTATION = gql`

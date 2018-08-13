@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { withApollo, graphql } from 'react-apollo';
-import localStorage from '@lib/localStorage';
+import { localStorage } from '@lib';
 import gql from 'graphql-tag';
 
 const LOGOUT_MUTATION = gql`

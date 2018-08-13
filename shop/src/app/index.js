@@ -9,10 +9,9 @@ import { HttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { injectGlobal } from 'styled-components';
-import localStorage from '@lib/localStorage';
+import { localStorage } from '@lib';
 
-// Set authentication tokens
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext((_, { headers = {} }) => {
   // get the authentication token from local storage if it exists
   let token = localStorage.get('token');
   let context = { headers };

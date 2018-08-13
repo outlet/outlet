@@ -12,6 +12,7 @@ module.exports = {
   // **WARNING**: Be careful not to expose any secrets here!
   clientEnv: [
     'NODE_ENV',
+    'GRAPHQL_BASE_URL',
     'APPLICATION_BASE_URL',
     'ALGOLIA_APP_ID',
     'ALGOLIA_SEARCH_KEY'

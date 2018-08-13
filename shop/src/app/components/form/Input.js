@@ -17,7 +17,7 @@ const Input = (props) => {
   return (
     <Field
       label={props.label || props.placeholder}
-      error={hasError && errors[field.name]}
+      error={(hasError && errors[field.name]) || null}
       render={() => (
         <RebassInput
           {...field}

@@ -21,9 +21,9 @@ class LoginForm extends Component {
     });
   };
 
-  renderForm = ({ handleSubmit, isSubmitting, isValid }) => {
+  renderForm = ({ isSubmitting, isValid }) => {
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Field
           component={Input}
           name="usernameOrEmail"

@@ -1,5 +1,5 @@
 export const get = (key) => {
-  if (typeof window.localStorage !== 'undefined') {
+  if (typeof window.localStorage === 'undefined') {
     return;
   }
 
@@ -7,7 +7,7 @@ export const get = (key) => {
 };
 
 export const set = (key, value) => {
-  if (typeof window.localStorage !== 'undefined') {
+  if (typeof window.localStorage === 'undefined') {
     return;
   }
 
@@ -15,7 +15,7 @@ export const set = (key, value) => {
 };
 
 export const remove = (key) => {
-  if (typeof window.localStorage !== 'undefined') {
+  if (typeof window.localStorage === 'undefined') {
     return;
   }
 
@@ -23,7 +23,7 @@ export const remove = (key) => {
 };
 
 export const clear = () => {
-  if (typeof window.localStorage !== 'undefined') {
+  if (typeof window.localStorage === 'undefined') {
     return undefined;
   }
 
