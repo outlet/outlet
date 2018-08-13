@@ -117,7 +117,7 @@ export default function ssrMiddleware(options = {}) {
       const markup = render(html, {
         bundles: (stats && getBundles(stats, modules)) || [],
         state: client.extract(),
-        styles: opts.styles,
+        styles: sheet.getStyleTags(),
         manifest: webpackManifest,
         template
       });
