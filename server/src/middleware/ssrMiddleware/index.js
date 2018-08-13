@@ -12,6 +12,17 @@ import Loadable from 'react-loadable';
 import matchRoutes from '../../lib/matchRoutes';
 import render from './render';
 
+const safeRequire = function(modulePath) {
+  try {
+    return require(modulePath);
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      return undefined;
+    }
+    else throw err;
+  }
+};
+
 export default function ssrMiddleware(options = {}) {
   const opts = {
     // An array of react-router routes
@@ -35,9 +46,9 @@ export default function ssrMiddleware(options = {}) {
     // If supplied, enables dynamic imports with react-loadable
     reactLoadableStats: null,
 
-    // Asset manifest file from webpack. If supplied, an `assets` object will be
-    // supplied to `templateFn` when rendering.
-    webpackManifest: null,
+    // Path to asset manifest file from webpack. If supplied and exists an
+    // `assets` object will be supplied to `templateFn` when rendering.
+    manifestPath: null,
 
     // the graphql endpoint to connect to
     graphqlEndpoint: null,
@@ -113,14 +124,15 @@ export default function ssrMiddleware(options = {}) {
         return res.redirect(302, context.url);
       }
 
-      const { reactLoadableStats: stats, webpackManifest, templateFn } = opts;
+      const { reactLoadableStats: stats, manifestPath, templateFn } = opts;
+      const manifest = safeRequire(manifestPath) || {};
       const sheet = new ServerStyleSheet();
       const html = renderToString(sheet.collectStyles(App));
       const markup = render(html, {
         bundles: (stats && getBundles(stats, modules)) || [],
         state: client.extract(),
         styles: sheet.getStyleTags(),
-        manifest: webpackManifest,
+        manifest,
         templateFn
       });
 

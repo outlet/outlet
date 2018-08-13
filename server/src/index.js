@@ -14,6 +14,7 @@ export default function ClientServer(options = {}) {
       webpackConfig: {}
     },
     ssrOptions: {},
+    manifestPath: null,
     staticPath: null,
     staticPaths: [],
     ...options
