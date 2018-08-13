@@ -20,9 +20,11 @@ export default function ssrMiddleware(options = {}) {
     // Top level react component to render
     AppComponent: null,
 
-    // A layout template to use for rendering. If not provided, the default
-    // will be used.
-    template: null,
+    // A pure function to use for rendering the base layout. Must be provided.
+    // The function will be called with the following object arguments:
+    // { helmet, assets, styles, state, html }
+    // TODO: Add a default template function.
+    templateFn: null,
 
     // Override the default apollo-client options.
     apolloClientOptions: {},
@@ -34,7 +36,7 @@ export default function ssrMiddleware(options = {}) {
     reactLoadableStats: null,
 
     // Asset manifest file from webpack. If supplied, an `assets` object will be
-    // supplied to the `template` file when rendering.
+    // supplied to `templateFn` when rendering.
     webpackManifest: null,
 
     // the graphql endpoint to connect to
@@ -111,7 +113,7 @@ export default function ssrMiddleware(options = {}) {
         return res.redirect(302, context.url);
       }
 
-      const { reactLoadableStats: stats, webpackManifest, template } = opts;
+      const { reactLoadableStats: stats, webpackManifest, templateFn } = opts;
       const sheet = new ServerStyleSheet();
       const html = renderToString(sheet.collectStyles(App));
       const markup = render(html, {
@@ -119,7 +121,7 @@ export default function ssrMiddleware(options = {}) {
         state: client.extract(),
         styles: sheet.getStyleTags(),
         manifest: webpackManifest,
-        template
+        templateFn
       });
 
       return res.status(status).send(markup);

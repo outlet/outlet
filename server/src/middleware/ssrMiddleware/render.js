@@ -1,4 +1,3 @@
-import { template as tmpl } from 'lodash';
 import { Helmet } from 'react-helmet';
 import not from '../../lib/not';
 
@@ -22,12 +21,11 @@ const getAssets = (manifest, chunks = []) => {
 };
 
 export default function render(html, opts = {}) {
-  const { manifest, template, bundles, state, styles } = opts;
+  const { manifest, templateFn, bundles, state, styles } = opts;
   const assets = getAssets(manifest, bundles);
-  const compile = (template && tmpl(template)) || html;
   const helmet = Helmet.renderStatic();
 
-  return compile({
+  return templateFn({
     html,
     helmet,
     assets,
