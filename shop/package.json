@@ -163,7 +163,7 @@
   },
   "dependencies": {
     "@outlet/graphql": "^1.0.0-alpha.1",
-    "@outlet/server": "file:../server",
+    "@outlet/server": "^1.0.0-alpha.4",
     "apollo-cache-inmemory": "^1.2.7",
     "apollo-client": "^2.3.8",
     "apollo-link": "^1.2.2",
