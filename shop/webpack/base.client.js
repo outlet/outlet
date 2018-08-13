@@ -1,7 +1,7 @@
 import yn from 'yn';
 import path from 'path';
 import webpack from 'webpack';
-import ExtractCssChunks from 'extract-css-chunks-webpack-plugin';
+// import ExtractCssChunks from 'extract-css-chunks-webpack-plugin';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { ReactLoadablePlugin } from 'react-loadable/webpack';
@@ -12,7 +12,8 @@ import * as config from '../config';
 
 const isDev = process.env.NODE_ENV === 'development';
 const cwd = process.cwd();
-const { enableDynamicImports, clientEnv, cssModulesIdentifier } = config;
+const { enableDynamicImports, clientEnv } = config;
+// const { cssModulesIdentifier } = config;
 
 if (isDev) require('dotenv').load();
 
@@ -22,11 +23,11 @@ export const basePlugins = {
   reactLoadablePlugin: new ReactLoadablePlugin({
     filename: path.join(cwd, 'react-loadable.json')
   }),
-  extractCssChunksPlugin: new ExtractCssChunks({
-    filename: isDev ? '[name].css' : '[name].[id].css',
-    chunkFilename: '[id].css',
-    hot: isDev ? true : false
-  }),
+  // extractCssChunksPlugin: new ExtractCssChunks({
+  //   filename: isDev ? '[name].css' : '[name].[id].css',
+  //   chunkFilename: '[id].css',
+  //   hot: isDev ? true : false
+  // }),
   definePlugin: new webpack.DefinePlugin({
     'process.env': mapValues(keyBy(clientEnv), env => {
       return JSON.stringify(process.env[env]);
@@ -42,8 +43,8 @@ const allowedPlugin = (plugin, key) => {
   switch (key) {
     case 'reactLoadablePlugin':
       return enableDynamicImports;
-    case 'extractCssChunksPlugin':
-      return !isSSR;
+    // case 'extractCssChunksPlugin':
+    //   return !isSSR;
     case 'bundleAnalyzerPlugin':
       return analyzeBundle;
     default:
@@ -53,77 +54,76 @@ const allowedPlugin = (plugin, key) => {
 
 // This function returns a loader set that will compile sass files from within
 // the specified entry point.
-const scssLoaderForEntryPoint = (entry) => {
-  const test = new RegExp(path.resolve(cwd, `common/${entry}`) + '.+\\.scss');
-
-  return [
-    // These scss files will be converted into css-modules.
-    {
-      test: test,
-      exclude: [
-        path.resolve(cwd, 'node_modules'),
-        path.resolve(cwd, `common/${entry}/assets/css/base`)
-      ],
-      use: [
-        ExtractCssChunks.loader,
-        {
-          loader: 'css-loader',
-          options: {
-            modules: true,
-            minimize: false,
-            importLoaders: 1,
-            localIdentName: cssModulesIdentifier
-          }
-        },
-        { loader: 'postcss-loader' },
-        { loader: 'sass-loader' },
-        {
-          // allows resources like variables, colors to be available in
-          // css modules inside react components.
-          loader: 'sass-resources-loader',
-          options: {
-            resources: [
-              './common/shared/assets/css/resources/*.scss',
-              `./common/${entry}/assets/css/resources/*.scss`
-            ]
-          }
-        }
-      ]
-    },
-
-    // Some scss files should not be converted into css modules, since they
-    // should be applied globally.
-    {
-      test: test,
-      include: [
-        path.resolve(cwd, 'node_modules'),
-        path.resolve(cwd, `common/${entry}/assets/css/base/index.scss`)
-      ],
-      use: [
-        ExtractCssChunks.loader,
-        { loader: 'css-loader', options: { modules: false } },
-        { loader: 'postcss-loader' },
-        { loader: 'sass-loader' },
-        {
-          loader: 'sass-resources-loader',
-          options: {
-            resources: [
-              './common/shared/assets/css/resources/*.scss',
-              `./common/${entry}/assets/css/resources/*.scss`
-            ]
-          }
-        }
-      ]
-    }
-  ];
-};
+// const scssLoaderForEntryPoint = (entry) => {
+//   const test = new RegExp(path.resolve(cwd, `common/${entry}`) + '.+\\.scss');
+//
+//   return [
+//     // These scss files will be converted into css-modules.
+//     {
+//       test: test,
+//       exclude: [
+//         path.resolve(cwd, 'node_modules'),
+//         path.resolve(cwd, `common/${entry}/assets/css/base`)
+//       ],
+//       use: [
+//         ExtractCssChunks.loader,
+//         {
+//           loader: 'css-loader',
+//           options: {
+//             modules: true,
+//             minimize: false,
+//             importLoaders: 1,
+//             localIdentName: cssModulesIdentifier
+//           }
+//         },
+//         { loader: 'postcss-loader' },
+//         { loader: 'sass-loader' },
+//         {
+//           // allows resources like variables, colors to be available in
+//           // css modules inside react components.
+//           loader: 'sass-resources-loader',
+//           options: {
+//             resources: [
+//               './common/shared/assets/css/resources/*.scss',
+//               `./common/${entry}/assets/css/resources/*.scss`
+//             ]
+//           }
+//         }
+//       ]
+//     },
+//
+//     // Some scss files should not be converted into css modules, since they
+//     // should be applied globally.
+//     {
+//       test: test,
+//       include: [
+//         path.resolve(cwd, 'node_modules'),
+//         path.resolve(cwd, `common/${entry}/assets/css/base/index.scss`)
+//       ],
+//       use: [
+//         ExtractCssChunks.loader,
+//         { loader: 'css-loader', options: { modules: false } },
+//         { loader: 'postcss-loader' },
+//         { loader: 'sass-loader' },
+//         {
+//           loader: 'sass-resources-loader',
+//           options: {
+//             resources: [
+//               './common/shared/assets/css/resources/*.scss',
+//               `./common/${entry}/assets/css/resources/*.scss`
+//             ]
+//           }
+//         }
+//       ]
+//     }
+//   ];
+// };
 
 export default {
   context: path.resolve(cwd),
   mode: isDev ? 'development' : 'production',
   entry: {
-    admin: ['./client/admin'],
-    app: ['./client/app']
+    app: ['./app/index']
   },
   devServer: {
     stats: {
@@ -134,21 +134,16 @@ export default {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        vendorAdmin: {
+        vendor: {
           test: module => /node_modules/.test(module.context),
-          name: 'admin.vendor',
-          chunks: chunk => chunk.name === 'admin'
-        },
-        vendorAapp: {
-          test: module => /node_modules/.test(module.context),
-          name: 'app.vendor',
+          name: 'vendor',
           chunks: chunk => chunk.name === 'app'
         }
       }
     }
   },
   output: {
-    path: path.join(cwd, process.env.PUBLIC_OUTPUT_PATH),
+    path: path.join(cwd, '..', process.env.PUBLIC_OUTPUT_PATH),
     filename: '[name].js',
     publicPath: process.env.PUBLIC_ASSET_PATH || '/assets/',
     chunkFilename: enableDynamicImports ? '[name].js' : undefined
@@ -168,13 +163,11 @@ export default {
         loader: 'babel-loader',
         options: babelOpts
       },
-      ...scssLoaderForEntryPoint('shared'),
-      ...scssLoaderForEntryPoint('app'),
-      ...scssLoaderForEntryPoint('admin'),
-      {
-        test: /\.css$/,
-        use: [ExtractCssChunks.loader, 'css-loader', 'postcss-loader']
-      },
+      // ...scssLoaderForEntryPoint('app'),
+      // {
+      //   test: /\.css$/,
+      //   use: [ExtractCssChunks.loader, 'css-loader', 'postcss-loader']
+      // },
       {
         test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
         use: [

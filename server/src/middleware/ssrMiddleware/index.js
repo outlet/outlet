@@ -4,8 +4,9 @@ import { createHttpLink } from 'apollo-link-http';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { StaticRouter } from 'react-router';
-import { renderToString } from 'react-dom/server';
 import { getBundles } from 'react-loadable/webpack';
+import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
 import fetch from 'node-fetch';
 import Loadable from 'react-loadable';
 import matchRoutes from '../../lib/matchRoutes';
@@ -43,7 +44,7 @@ export default function ssrMiddleware(options = {}) {
   };
 
   return function handleRender(req, res) {
-    const { AppComponent, reactLoadableStats: loadables } = opts;
+    const { AppComponent } = opts;
 
     let context = {},
       modules = [];
@@ -60,9 +61,15 @@ export default function ssrMiddleware(options = {}) {
       return res.status(404).send('Not Found');
     }
 
-    let status = matches.length && matches[0].match.path === '*' ? 404 : 200;
+    const status = matches.length && matches[0].match.path === '*' ? 404 : 200;
     const [pathname, search] = req.originalUrl.split('?');
     const location = { pathname, search };
+
+    // If SSR is disabled, just render the skeleton HTML with the initial state.
+    if (!opts.ssr) {
+      return res.status(status).send(render(null, opts, {}, []));
+    }
+
     const client = new ApolloClient({
       ssrMode: opts.ssr,
       cache: new InMemoryCache(),
@@ -80,49 +87,45 @@ export default function ssrMiddleware(options = {}) {
       ...opts.apolloClientOptions
     });
 
-    // If SSR is disabled, just render the skeleton HTML with the initial state.
-    if (!opts.ssr) {
-      return res.status(status).send(render(null, null, {}, []));
+    let App = (
+      <ApolloProvider client={client}>
+        <StaticRouter context={context} location={location}>
+          <AppComponent />
+        </StaticRouter>
+      </ApolloProvider>
+    );
+
+    // If react-loadable stats manifest is supplied, then
+    if (opts.reactLoadableStats) {
+      App = (
+        <Loadable.Capture report={name => modules.push(name)}>
+          {App}
+        </Loadable.Capture>
+      );
     }
 
-    const Component = (() => {
-      let component = (
-        <ApolloProvider client={client}>
-          <StaticRouter context={context} location={location}>
-            <AppComponent />
-          </StaticRouter>
-        </ApolloProvider>
-      );
-
-      // If react-loadable stats manifest is supplied, then
-      if (opts.reactLoadableStats) {
-        return (
-          <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-            {component}
-          </Loadable.Capture>
-        );
-      }
-
-      return component;
-    })();
-
     const renderApp = () => {
-      const html = renderToString(Component);
-      const state = client.extract();
-      const bundles = (loadables && getBundles(loadables, modules)) || [];
-
       // A 301 redirect was rendered somewhere if context.url exists after
       // rendering has happened.
       if (context.url) {
         return res.redirect(302, context.url);
       }
 
-      const markup = render(html, null, state, bundles);
+      const { reactLoadableStats: stats, webpackManifest, template } = opts;
+      const sheet = new ServerStyleSheet();
+      const html = renderToString(sheet.collectStyles(App));
+      const markup = render(html, {
+        bundles: (stats && getBundles(stats, modules)) || [],
+        state: client.extract(),
+        styles: opts.styles,
+        manifest: webpackManifest,
+        template
+      });
 
       return res.status(status).send(markup);
     };
 
-    return getDataFromTree(Component)
+    return getDataFromTree(App)
       .then(renderApp)
       .catch(renderApp);
   };

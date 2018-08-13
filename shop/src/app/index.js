@@ -1,5 +1,3 @@
-import 'semantic-ui-css/semantic.min.css';
-import '@assets/css/base/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '@containers/App';
@@ -10,7 +8,8 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import localStorage from '@common/lib/localStorage';
+import { injectGlobal } from 'styled-components';
+import localStorage from '@lib/localStorage';
 
 // Set authentication tokens
 const authLink = setContext((_, { headers }) => {

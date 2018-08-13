@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Loader } from 'semantic-ui-react';
 import { ProductCard } from '@components/products';
-import classnames from 'classnames';
-import css from './index.scss';
 
 const ProductList = props => {
-  const { products, loading, className } = props;
+  const { products, loading } = props;
 
   return (
-    <div className={classnames(css.productList, className)}>
-      <Loader active={loading} />
+    <div>
       {products.map(product => {
         return <ProductCard key={product.id} product={product} />;
       })}

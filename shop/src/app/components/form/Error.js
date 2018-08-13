@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import css from './index.scss';
+import { Message } from 'rebass';
 
-const Error = (props) => {
-  const { message, className, children } = props;
+const Error = props => {
+  const { message, children } = props;
 
   return (
-    <p className={classnames(css.error, className)}>
+    <Message bg="transparent" color="red">
       {children || message}
-    </p>
+    </Message>
   );
 };
 

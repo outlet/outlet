@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { ProductList } from '@components/products';
-import { ProductSearch } from '@common/components/products';
+import { ProductList, ProductSearch } from '@components/products';
 import { Query } from 'react-apollo';
 import { get } from 'lodash';
 import qs from 'query-string';
@@ -69,7 +68,6 @@ class ProductsPage extends Component {
               <ProductSearch
                 products={products}
                 onSearch={this.handleSearch}
-                loading={loading}
                 initialQuery={initial}
               />
               <ProductList loading={loading} products={products} />

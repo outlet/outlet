@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Formik, Field } from 'formik';
-import { Form } from 'semantic-ui-react';
-import { Input, Button } from '@common/components/form';
+import { Formik, Field, Form } from 'formik';
+import { Input } from '@components/form';
+import { Button } from 'rebass';
 import { getValidationErrors } from '@lib/errors';
 import schema from './schema';
-import css from './index.scss';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -24,7 +23,7 @@ class LoginForm extends Component {
 
   renderForm = ({ handleSubmit, isSubmitting, isValid }) => {
     return (
-      <Form className={css.loginForm} onSubmit={handleSubmit} error={true}>
+      <Form onSubmit={handleSubmit}>
         <Field
           component={Input}
           name="usernameOrEmail"
@@ -36,11 +35,9 @@ class LoginForm extends Component {
           name="password"
           placeholder="Password"
         />
-        <div className={css.actions}>
+        <div>
           <Button
-            primary
             type="submit"
-            loading={isSubmitting}
             disabled={isSubmitting || !isValid}
           >
             Log In

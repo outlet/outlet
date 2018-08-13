@@ -15,13 +15,15 @@
   "_cssModulesId": "[name]__[local]__[hash:base64:5]",
   "_moduleAliases": {
     "@assets": "app/assets",
-    "@common": "app/common",
+    "@common": "app/components/common",
     "@components": "app/components",
     "@config": "config",
     "@containers": "app/containers",
-    "@lib": "app/common/lib",
+    "@hocs": "app/hocs",
+    "@lib": "app/lib",
     "@pages": "app/pages",
-    "@routes": "app/routes"
+    "@routes": "app/routes",
+    "@themes": "app/themes"
   },
   "scripts": {
     "start": "bnr dev:start",
@@ -103,6 +105,7 @@
     "babel-plugin-dynamic-import-node": "^2.0.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-react-transform": "^3.0.0",
+    "babel-plugin-styled-components": "^1.5.1",
     "babel-plugin-syntax-class-properties": "^6.13.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
@@ -160,7 +163,7 @@
   },
   "dependencies": {
     "@outlet/graphql": "^1.0.0-alpha.1",
-    "@outlet/server": "^1.0.0-alpha.3",
+    "@outlet/server": "file:../server",
     "apollo-cache-inmemory": "^1.2.7",
     "apollo-client": "^2.3.8",
     "apollo-link": "^1.2.2",
@@ -192,8 +195,9 @@
     "react-loadable": "^5.5.0",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.0.0",
-    "semantic-ui-css": "^2.3.3",
-    "semantic-ui-react": "^0.82.2",
+    "rebass": "^2.0.0-10",
+    "styled-components": "^3.4.2",
+    "styled-system": "^3.0.2",
     "webpack-cli": "^3.1.0",
     "yup": "^0.26.2"
   }

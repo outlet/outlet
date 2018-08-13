@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { SignupForm } from '@components/auth';
 import { Helmet } from 'react-helmet';
 import { Redirect, withRouter } from 'react-router-dom';
-import { withUser, withSignup } from '@common/hocs/auth';
-import css from './index.scss';
+import { withUser, withSignup } from '@hocs/auth';
 
 class SignupPage extends Component {
   static propTypes = {
@@ -30,7 +29,7 @@ class SignupPage extends Component {
     }
 
     return (
-      <div className={css.signupPage}>
+      <div>
         <Helmet>
           <title>{title}</title>
         </Helmet>

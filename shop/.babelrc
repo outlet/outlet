@@ -16,7 +16,11 @@
     "transform-class-properties",
     "transform-export-extensions",
     "transform-object-rest-spread",
-    "dynamic-import-node"
+    "dynamic-import-node",
+    ["babel-plugin-styled-components", {
+      "ssr": true,
+      "displayName": true
+    }]
   ],
   "env": {
     "test": {

@@ -1,6 +1,6 @@
-const path = require('path');
+// const path = require('path');
 const env = process.env.NODE_ENV || 'development';
-const packageJson = require(path.join(process.cwd(), '..', 'package.json'));
+// const packageJson = require(path.join(process.cwd(), '..', 'package.json'));
 
 if (['development', 'test'].includes(env)) {
   // Transpile on the fly in dev/test
@@ -8,11 +8,11 @@ if (['development', 'test'].includes(env)) {
   require('babel-register');
 
   // css modules
-  require('css-modules-require-hook')({
-    extensions: ['.scss'],
-    generateScopedName: packageJson._cssModulesId,
-    devMode: true
-  });
+  // require('css-modules-require-hook')({
+  //   extensions: ['.scss'],
+  //   generateScopedName: packageJson._cssModulesId,
+  //   devMode: true
+  // });
 
   // Add better stack tracing for promises in dev mode
   process.on('unhandledRejection', r => console.log(r));

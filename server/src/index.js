@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -13,6 +14,8 @@ export default function ClientServer(options = {}) {
       webpackConfig: {}
     },
     ssrOptions: {},
+    staticPath: null,
+    staticPaths: [],
     ...options
   };
 
@@ -33,12 +36,12 @@ export default function ClientServer(options = {}) {
   server.use(compression());
   //
   // // Add middleware to serve up all static files
-  // server.use(
-  //   '/assets',
-  //   express.static(path.join(cwd, process.env.PUBLIC_OUTPUT_PATH)),
-  //   express.static(path.join(cwd, 'common/images')),
-  //   express.static(path.join(cwd, 'common/fonts'))
-  // );
+  if (opts.staticPath) {
+    server.use(
+      opts.staticPath,
+      ...opts.staticPaths.map(path => express.static(path))
+    );
+  }
 
   // handle browsers requesting favicon
   // server.use(

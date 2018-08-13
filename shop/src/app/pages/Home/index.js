@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import css from './index.scss';
+import { Container, Heading, Text } from 'rebass';
 
 class HomePage extends Component {
   render() {
     return (
-      <div className={css.home}>
+      <Container>
         <Helmet>
           <title>Home</title>
         </Helmet>
-        <h1>It Works!</h1>
-        <p>
+        <Heading>It Works!</Heading>
+        <Text>
           You've successfully started up your first universally rendered react
           app powered by GraphQL!<br />
           Hint: Try View Source on this page to see that it was rendered on the
           server as well.
-        </p>
-        <p>
+        </Text>
+        <Text>
           Check out the <Link to="/products">products list</Link>.
-        </p>
-      </div>
+        </Text>
+      </Container>
     );
   }
 }

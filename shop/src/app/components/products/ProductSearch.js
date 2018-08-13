@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Input } from 'semantic-ui-react';
+import { Input } from 'rebass';
 import { debounce } from 'lodash';
 import classnames from 'classnames';
-import css from './index.scss';
 
 const DEBOUNCE_TIMER = 300;
 
@@ -72,7 +71,7 @@ class ProductSearch extends Component {
     return (
       <Input
         placeholder="Search..."
-        className={classnames(css.productSearch, className)}
+        className={classnames(className)}
         onChange={this.handleSearchChange}
         onKeyPress={this.handleKeyPress}
         disabled={loading}

@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { LoginForm } from '@components/auth';
-import { withUser, withLogin } from '@common/hocs/auth';
+import { withUser, withLogin } from '@hocs/auth';
 import { Redirect, withRouter } from 'react-router-dom';
-import css from './index.scss';
 
 class LoginPage extends Component {
   static propTypes = {
@@ -30,7 +29,7 @@ class LoginPage extends Component {
     }
 
     return (
-      <div className={css.loginPage}>
+      <div>
         <Helmet>
           <title>{title}</title>
         </Helmet>

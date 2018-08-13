@@ -22,7 +22,7 @@ export default {
     [
       'lodash',
       {
-        id: ['lodash', 'semantic-ui-react']
+        id: ['lodash']
       }
     ]
   ],

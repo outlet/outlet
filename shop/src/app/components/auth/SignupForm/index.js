@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Formik, Field } from 'formik';
-import { Form } from 'semantic-ui-react';
-import { Input, Button } from '@common/components/form';
+import { Formik, Field, Form } from 'formik';
+import { Input, Button } from 'rebass';
 import { getValidationErrors } from '@lib/errors';
-// import userSchema from '@models/schemas/user';
-import css from './index.scss';
 
 class SignupForm extends Component {
   static propTypes = {
@@ -24,7 +21,7 @@ class SignupForm extends Component {
 
   renderForm = ({ handleSubmit, isSubmitting, isValid }) => {
     return (
-      <Form className={css.signupForm} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Field component={Input} name="username" placeholder="Username" />
         <Field
           component={Input}
@@ -38,11 +35,9 @@ class SignupForm extends Component {
           name="password"
           placeholder="Password"
         />
-        <div className={css.actions}>
+        <div>
           <Button
-            primary
             type="submit"
-            loading={isSubmitting}
             disabled={isSubmitting || !isValid}
           >
             Sign Up

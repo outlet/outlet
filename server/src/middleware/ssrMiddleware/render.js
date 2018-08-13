@@ -1,50 +1,37 @@
-// import path from 'path';
-// import { template, difference } from 'lodash';
-// import { Helmet } from 'react-helmet';
-// import { manifestFilename } from '@config';
-// import safeRequire from '@lib/safeRequire';
+import { template as tmpl } from 'lodash';
+import { Helmet } from 'react-helmet';
+import not from '../../lib/not';
 
-// const output = process.env.PUBLIC_OUTPUT_PATH || 'dist/public';
-// const manifestPath = path.join(__dirname, '../..', output, manifestFilename);
+const isVendor = f => f.match(/vendor/);
+const isCss = f => f.match(/.css/);
+const isJs = f => f.match(/.js/);
 
-// const getAssets = (layout, chunks = []) => {
-//   const manifest = safeRequire(manifestPath);
-//   const isLayout = f => f.match(new RegExp(layout));
-//   const isVendor = f => f.match(new RegExp(`${layout}\\.vendor`));
-//   const isCss = f => f.match(/.css/);
-//   const isJs = f => f.match(/.js/);
-//   const assetPath = k => manifest[k];
-//   const keys = Object.keys(manifest);
-//
-//   // vendors go first.
-//   const bundles = keys.filter(isLayout);
-//   const vendors = keys.filter(isVendor);
-//   const assets = [...vendors, ...difference(bundles, vendors)];
-//
-//   return {
-//     css: [
-//       ...assets.filter(isCss).map(assetPath),
-//       ...chunks.map(b => b.file).filter(isCss)
-//     ],
-//     js: [
-//       ...assets.filter(isJs).map(assetPath),
-//       ...chunks.map(b => b.file).filter(isJs)
-//     ]
-//   };
-// };
+const getAssets = (manifest, chunks = []) => {
+  const assetPath = k => manifest[k];
+  const keys = Object.keys(manifest);
+  const chunkPaths = chunks.map(chunk => chunk.file);
+  const assets = keys
+    .filter(isVendor)
+    .concat(keys.filter(not(isVendor)))
+    .map(assetPath);
 
-export default function render(html, layout, state = {}, chunks = []) {
+  return {
+    css: assets.filter(isCss).concat(chunkPaths.filter(isCss)),
+    js: assets.filter(isJs).concat(chunkPaths.filter(isJs))
+  };
+};
 
-  return `<html><body>${html}</body></html>`;
+export default function render(html, opts = {}) {
+  const { manifest, template, bundles, state, styles } = opts;
+  const assets = getAssets(manifest, bundles);
+  const compile = (template && tmpl(template)) || html;
+  const helmet = Helmet.renderStatic();
 
-  // const assets = getAssets(layout, chunks);
-  // const compile = template(safeRequire(`@templates/layouts/${layout}.html`));
-  // const helmet = Helmet.renderStatic();
-  //
-  // return compile({
-  //   html,
-  //   helmet,
-  //   assets,
-  //   state
-  // });
+  return compile({
+    html,
+    helmet,
+    assets,
+    state,
+    styles
+  });
 }

@@ -24,7 +24,7 @@ const currentUser = function(ComposedComponent) {
             return (
               <ComposedComponent
                 {...this.props}
-                currentUser={data.currentUser}
+                currentUser={data && data.currentUser}
               />
             );
           }}
