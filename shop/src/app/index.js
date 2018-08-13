@@ -28,7 +28,7 @@ const authLink = setContext((_, { headers = {} }) => {
 
 const httpLink = new HttpLink({
   uri: process.env.GRAPHQL_BASE_URL,
-  credentials: 'same-origin'
+  credentials: 'include'
 });
 
 const apolloClient = new ApolloClient({
