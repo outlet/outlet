@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 class ProductList extends React.Component {
@@ -16,26 +15,26 @@ class ProductList extends React.Component {
     const { products } = this.props;
 
     return (
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
           {products.map(product => (
-            <Table.Row key={product.id}>
-              <Table.Cell>{product.id}</Table.Cell>
-              <Table.Cell>
-                <Link to={`/admin/products/${product.slug}`}>
+            <tr key={product.id}>
+              <td>{product.id}</td>
+              <td>
+                <Link to={`/products/${product.slug}`}>
                   {product.name}
                 </Link>
-              </Table.Cell>
-            </Table.Row>
+              </td>
+            </tr>
           ))}
-        </Table.Body>
-      </Table>
+        </tbody>
+      </table>
     );
   }
 }

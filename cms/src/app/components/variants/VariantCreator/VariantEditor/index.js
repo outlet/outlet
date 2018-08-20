@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox } from 'semantic-ui-react';
+import { Checkbox } from 'rebass';
 import { Field, FieldArray } from 'formik';
 import { InputField } from '@components/form';
 import { validOptions } from '@helpers/variants';
-import css from './index.scss';
 
 class VariantEditor extends Component {
   static propTypes = {
@@ -29,64 +28,64 @@ class VariantEditor extends Component {
         render={() => (
           <Fragment>
             <p>Modify each variant as needed:</p>
-            <Table basic className={css.variantListForm}>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell collapsing>
+            <table>
+              <thead>
+                <tr>
+                  <th collapsing>
                     <Checkbox />
-                  </Table.HeaderCell>
+                  </th>
                   {headerOptions.map((option, idx) => (
-                    <Table.HeaderCell collapsing key={idx}>
+                    <th collapsing key={idx}>
                       {option.name}
-                    </Table.HeaderCell>
+                    </th>
                   ))}
-                  <Table.HeaderCell>Price</Table.HeaderCell>
-                  <Table.HeaderCell>SKU</Table.HeaderCell>
-                  <Table.HeaderCell>Barcode</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
+                  <th>Price</th>
+                  <th>SKU</th>
+                  <th>Barcode</th>
+                </tr>
+              </thead>
+              <tbody>
                 {variants.map((variant, idx) => {
                   return (
-                    <Table.Row key={idx}>
-                      <Table.Cell>
+                    <tr key={idx}>
+                      <td>
                         <Checkbox />
-                      </Table.Cell>
+                      </td>
                       {Object.keys(variant.options).map((key, index) => {
                         const optionName = variant.options[key];
                         return (
-                          <Table.Cell key={`${idx}-${index}-${optionName}`}>
+                          <td key={`${idx}-${index}-${optionName}`}>
                             {optionName}
-                          </Table.Cell>
+                          </td>
                         );
                       })}
-                      <Table.Cell>
+                      <td>
                         <Field
                           component={InputField}
                           name={`variants.${idx}.priceInCents`}
                           placeholder="Price"
                           type="number"
                         />
-                      </Table.Cell>
-                      <Table.Cell>
+                      </td>
+                      <td>
                         <Field
                           component={InputField}
                           name={`variants.${idx}.sku`}
                           placeholder="SKU"
                         />
-                      </Table.Cell>
-                      <Table.Cell>
+                      </td>
+                      <td>
                         <Field
                           component={InputField}
                           name={`variants.${idx}.barcode`}
                           placeholder="Barcode"
                         />
-                      </Table.Cell>
-                    </Table.Row>
+                      </td>
+                    </tr>
                   );
                 })}
-              </Table.Body>
-            </Table>
+              </tbody>
+            </table>
           </Fragment>
         )}
       />

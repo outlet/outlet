@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox } from 'semantic-ui-react';
+import { Checkbox } from 'rebass';
 import { Field } from 'formik';
 import { Input, InputField } from '@components/form';
 import { first, map } from 'lodash';
-import css from './index.scss';
 
 class VariantList extends Component {
   static propTypes = {
@@ -20,58 +19,58 @@ class VariantList extends Component {
     const options = Object.keys(first(variants).options);
 
     return (
-      <Table basic className={css.variantListTable}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell collapsing>
+      <table>
+        <thead>
+          <tr>
+            <th collapsing>
               <Checkbox />
-            </Table.HeaderCell>
+            </th>
             {options.map((opt, idx) => (
-              <Table.HeaderCell key={idx}>{opt}</Table.HeaderCell>
+              <th key={idx}>{opt}</th>
             ))}
-            <Table.HeaderCell>Price</Table.HeaderCell>
-            <Table.HeaderCell>SKU</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+            <th>Price</th>
+            <th>SKU</th>
+          </tr>
+        </thead>
+        <tbody>
           {variants.map((variant, idx) => {
             return (
-              <Table.Row className={css.variant} key={idx}>
-                <Table.Cell className={css.checkbox}>
+              <tr className={css.variant} key={idx}>
+                <td className={css.checkbox}>
                   <Checkbox />
-                </Table.Cell>
+                </td>
                 {options.map((name, index) => {
                   return (
-                    <Table.Cell key={`${idx}-${index}`}>
+                    <td key={`${idx}-${index}`}>
                       <Field
                         component={InputField}
                         name={`variants[${idx}].options[${name}]`}
                         className={css.optionField}
                         placeholder={name}
                       />
-                    </Table.Cell>
+                    </td>
                   );
                 })}
-                <Table.Cell>
+                <td>
                   <Field
                     component={InputField}
                     name={`variants.${idx}.priceInCents`}
                     placeholder="Price"
                     type="number"
                   />
-                </Table.Cell>
-                <Table.Cell>
+                </td>
+                <td>
                   <Field
                     component={InputField}
                     name={`variants.${idx}.sku`}
                     placeholder="SKU"
                   />
-                </Table.Cell>
-              </Table.Row>
+                </td>
+              </tr>
             );
           })}
-        </Table.Body>
-      </Table>
+        </tbody>
+      </table>
     );
   }
 }

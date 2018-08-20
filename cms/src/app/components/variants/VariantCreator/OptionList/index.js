@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button, Input } from 'semantic-ui-react';
+import { Button, Input } from 'rebass';
 import { Creatable } from 'react-select';
 import { getVariantOptions } from '@helpers/variants';
 import { get } from 'lodash';
 import dayjs from 'dayjs';
-import css from './index.scss';
 
 class OptionsList extends Component {
   static propTypes = {
@@ -110,57 +109,56 @@ class OptionsList extends Component {
     const { options } = this.state;
 
     return (
-      <Table basic className={css.options}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Option name</Table.HeaderCell>
-            <Table.HeaderCell>Option values</Table.HeaderCell>
-            <Table.HeaderCell collapsing />
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <table>
+        <thead>
+          <tr>
+            <th>Option name</th>
+            <th>Option values</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
           {options.map((option, idx) => {
             const { id, name } = option;
 
             return (
-              <Table.Row key={idx}>
-                <Table.Cell collapsing>
+              <tr key={idx}>
+                <td collapsing>
                   <Input
-                    className={css.optionNameInput}
                     placeholder="Option Name"
                     onChange={this.handleChangeOptionName(id)}
                     value={name}
                   />
-                </Table.Cell>
-                <Table.Cell>
+                </td>
+                <td>
                   <Creatable
                     isMulti
                     onChange={this.handleAddOptionValue(id)}
                     placeholder="Add separate option values..."
                     selected
                   />
-                </Table.Cell>
-                <Table.Cell>
+                </td>
+                <td>
                   <Button
-                    icon="trash"
                     type="button"
                     onClick={this.handleRemoveOption(id)}
+                    children={'Delete'}
                   />
-                </Table.Cell>
-              </Table.Row>
+                </td>
+              </tr>
             );
           })}
-          <Table.Row>
-            <Table.Cell colSpan={3}>
+          <tr>
+            <td colSpan={3}>
               <Button
                 onClick={this.handleAddOption}
                 type="button"
                 content="Add another option"
               />
-            </Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     );
   }
 }

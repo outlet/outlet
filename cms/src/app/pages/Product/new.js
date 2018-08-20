@@ -18,7 +18,7 @@ class AdminAddProductPage extends Component {
     return createProduct(values)
       .then(({ data }) => {
         const { createProduct: product } = data;
-        history.push(`/admin/products/${product.slug}`);
+        history.push(`/products/${product.slug}`);
       });
   }
 

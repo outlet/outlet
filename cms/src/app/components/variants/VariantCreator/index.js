@@ -1,9 +1,8 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Button } from 'rebass';
 import OptionList from './OptionList';
 import VariantEditor from './VariantEditor';
-import css from './index.scss';
 
 class VariantCreator extends Component {
   static propTypes = {
@@ -25,16 +24,15 @@ class VariantCreator extends Component {
     const { adding, options } = this.state;
 
     return (
-      <div className={css.variantEditor}>
+      <div>
         <p>
           Add variants of your product if it comes in multiple versions, such as
           sizes and colors.
         </p>
         <Button
-          secondary
           type="button"
           onClick={() => this.setState({ adding: !adding })}
-          content={adding ? 'Cancel' : 'Add Variant'}
+          children={adding ? 'Cancel' : 'Add Variant'}
         />
         {adding && (
           <Fragment>

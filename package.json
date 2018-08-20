@@ -2,13 +2,16 @@
   "name": "@outlet/outlet",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "(cd graphql && npm start) & (cd shop && npm start)"
+    "start:graphql": "(cd graphql && npm start)",
+    "start:shop": "(cd shop && npm start)",
+    "start:cms": "(cd cms && npm start)",
+    "start:all": "npm run start:graphql & npm run start:shop & npm run start:cms"
   }
 }

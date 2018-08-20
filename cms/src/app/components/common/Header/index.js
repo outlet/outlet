@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Redirect } from 'react-router-dom';
-import { Header, Menu } from 'semantic-ui-react';
-import { withUser, withLogout } from '@hocs/auth';
+import { NavLink, withRouter } from 'react-router-dom';
+import { Toolbar, Text, NavLink as Link } from 'rebass';
+import { withAdmin, withLogout } from '@hocs/auth';
 
 class HeaderView extends Component {
   static propTypes = {
-    currentUser: PropTypes.object,
+    currentAdmin: PropTypes.object,
     logout: PropTypes.func.isRequired
   }
 
@@ -16,27 +16,36 @@ class HeaderView extends Component {
     return logout();
   }
 
-  render() {
-    const { currentUser: user } = this.props;
+  renderUser = () => {
+    const { currentAdmin: admin } = this.props;
 
-    if (!user || user && user.role !== 'admin') {
-      return <Redirect to='/' />;
+    if (admin) {
+      return (
+        <Fragment>
+          <Link ml="auto">
+            <Text is="span">{admin.username}</Text>
+          </Link>
+          <Link is="a" children="Logout" onClick={this.logout} />
+        </Fragment>
+      );
     }
 
     return (
-      <Header>
-        <Menu size="massive">
-          <Menu.Menu position="right">
-            <Menu.Item>
-              <b>{user.username}</b>
-            </Menu.Item>
-            <Menu.Item as="a" content="Home" href="/" />
-            <Menu.Item as="a" content="Logout" onClick={this.logout} />
-          </Menu.Menu>
-        </Menu>
-      </Header>
+      <Fragment>
+        <Link ml="auto" is={NavLink} to="/login" children="Login" />
+      </Fragment>
+    );
+  }
+
+  render() {
+    return (
+      <Toolbar>
+        <Link is={NavLink} to="/" children="Home" />
+        <Link is={NavLink} to="/products" children="Products" />
+        {this.renderUser()}
+      </Toolbar>
     );
   }
 }
 
-export default withUser(withLogout(withRouter(HeaderView)));
+export default withAdmin(withLogout(withRouter(HeaderView)));

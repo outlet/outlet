@@ -4,11 +4,10 @@ import { Helmet } from 'react-helmet';
 import { withRouter, Link } from 'react-router-dom';
 import { ProductList, ProductSearch  } from '@components/products';
 import { Query } from 'react-apollo';
-import { Menu } from 'semantic-ui-react';
+import { Toolbar, Box, NavLink } from 'rebass';
 import { get } from 'lodash';
 import qs from 'query-string';
 import gql from 'graphql-tag';
-import css from './index.scss';
 
 export const FIND_PRODUCTS = gql`
   query findProducts($query: String!, $count: Int, $after: Int) {
@@ -67,28 +66,28 @@ class AdminProductsPage extends Component {
                 <title>{title}</title>
               </Helmet>
               <h1>{title}</h1>
-              <Menu className={css.menu} secondary>
-                <Menu.Item>
+              <Toolbar>
+                <Box>
                   <ProductSearch
                     products={products}
                     onSearch={this.handleSearch}
                     initialQuery={initial}
                     loading={loading}
                   />
-                </Menu.Item>
-                <Menu.Item
-                  as={Link}
+                </Box>
+                <NavLink
+                  is={Link}
                   name="Import"
-                  to="/admin/products/import"
+                  to="/products/import"
                   icon="upload"
                 />
-                <Menu.Item
-                  as={Link}
-                  to="/admin/products/new"
+                <NavLink
+                  is={Link}
+                  to="/products/new"
                   name="New Product"
                   icon="plus"
                 />
-              </Menu>
+              </Toolbar>
               <ProductList loading={loading} products={products} />
             </div>
           );

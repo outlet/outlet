@@ -1,13 +1,12 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Field } from 'formik';
+import { Formik, Field, Form } from 'formik';
 import { Input } from '@components/form';
-import { Button, Segment, Form, Sticky } from 'semantic-ui-react';
+import { Box, Sticky, Button } from 'rebass';
 import { VariantCreator, VariantList } from '@components/variants';
 import { getValidationErrors } from '@lib/errors';
 import { omitDeep } from '@lib';
 // import schema from './schema';
-import css from './index.scss';
 
 class ProductForm extends Component {
   static propTypes = {
@@ -67,25 +66,22 @@ class ProductForm extends Component {
             <Form
               ref={this.headerBarRef}
               onSubmit={form.handleSubmit}
-              className={css.productForm}
               error={true}
             >
               <Sticky
                 context={this.headerBarRef.current}
-                className={css.stickyBar}
               >
-                <div className={css.stickyBarInner}>
+                <div>
                   {title && <h1>{title}</h1>}
                   <Button
-                    primary
                     type="submit"
                     loading={form.isSubmitting}
                     disabled={!form.isValid || form.isSubmitting}
-                    content={product.id ? 'Save' : 'Create'}
+                    children={product.id ? 'Save' : 'Create'}
                   />
                 </div>
               </Sticky>
-              <Segment>
+              <Box>
                 <Field
                   component={Input}
                   name="name"
@@ -99,11 +95,11 @@ class ProductForm extends Component {
                   label="Description"
                   placeholder="Description"
                 />
-              </Segment>
-              <Segment clearing>
+              </Box>
+              <Box clearing>
                 <h3>Variants</h3>
                 {this.renderVariantForms(form)}
-              </Segment>
+              </Box>
             </Form>
           );
         }}

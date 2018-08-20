@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import { Input } from '@components/form';
 import { Button } from 'rebass';
@@ -16,12 +15,14 @@ class LoginForm extends Component {
     const { onSubmit } = this.props;
 
     return onSubmit(values).catch(error => {
+      console.log(error);
       actions.setErrors(getValidationErrors(error, 'login'));
       actions.setSubmitting(false);
     });
   };
 
   renderForm = ({ isSubmitting, isValid }) => {
+    console.log('isSubmitting:', isSubmitting);
     return (
       <Form>
         <Field
@@ -39,13 +40,8 @@ class LoginForm extends Component {
           <Button
             type="submit"
             disabled={isSubmitting || !isValid}
-          >
-            Log In
-          </Button>
-          <p>
-            Don&apos;t have an account?&nbsp;
-            <Link to="/signup">Create an account</Link>
-          </p>
+            children={isSubmitting ? 'Logging in...' : 'Log In'}
+          />
         </div>
       </Form>
     );
