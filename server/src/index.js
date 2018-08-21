@@ -1,9 +1,8 @@
-import path from 'path';
 import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import ssrMiddleware from './middleware/ssrMiddleware';
+import ssrMiddleware from './middleware/ssr';
 import applyDevTools from './lib/devTools';
 
 export default function ClientServer(options = {}) {
@@ -35,20 +34,14 @@ export default function ClientServer(options = {}) {
 
   // gzip
   server.use(compression());
-  //
-  // // Add middleware to serve up all static files
+
+  // Add middleware to serve up all static files
   if (opts.staticPath) {
     server.use(
       opts.staticPath,
       ...opts.staticPaths.map(path => express.static(path))
     );
   }
-
-  // handle browsers requesting favicon
-  // server.use(
-  //   '/favicon.ico',
-  //   express.static(path.join(cwd, 'common/images/favicon/favicon.ico'))
-  // );
 
   // Mount the react render middleware
   server.use('*', ssrMiddleware(opts.ssrOptions));
