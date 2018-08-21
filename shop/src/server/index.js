@@ -1,5 +1,5 @@
 import path from 'path';
-import ClientServer from '@outlet/server';
+import ClientServer from 'apollo-client-ssr-express';
 import routes from '@routes';
 import App from '@containers/App';
 import templateFn from './templates/app';

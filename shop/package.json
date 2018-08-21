@@ -140,10 +140,9 @@
     "yn": "^2.0.0"
   },
   "dependencies": {
-    "@outlet/graphql": "^1.0.0-alpha.1",
-    "@outlet/server": "file:../server",
     "apollo-cache-inmemory": "^1.2.7",
     "apollo-client": "^2.3.8",
+    "apollo-client-ssr-express": "0.1.0-alpha.8",
     "apollo-link": "^1.2.2",
     "apollo-link-context": "^1.0.8",
     "apollo-link-http": "^1.5.4",
