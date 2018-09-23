@@ -4,14 +4,14 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "scripts": {
     "start:graphql": "(cd graphql && npm start)",
     "start:shop": "(cd shop && npm start)",
     "start:cms": "(cd cms && npm start)",
     "start:all": "npm run start:graphql & npm run start:shop & npm run start:cms"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^3.4.0"
   }
 }
