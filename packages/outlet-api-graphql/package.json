@@ -1,7 +1,7 @@
 {
   "name": "@outlet/api-graphql",
   "description": "E-commerce GraphQL endpoint for Outlet",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "index.js",
   "repository": {
