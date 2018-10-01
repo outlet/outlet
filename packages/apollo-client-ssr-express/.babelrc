@@ -1,27 +1,28 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/env",
       {
         "targets": {
-          "node": "current",
-          "uglify": false
-        }
+          "node": "current"
+        },
+        "forceAllTransforms": false
       }
     ],
-    "react"
+    "@babel/preset-react"
   ],
   "plugins": [
-    "transform-es2015-modules-commonjs",
-    "transform-class-properties",
-    "transform-export-extensions",
-    "transform-object-rest-spread",
+    "@babel/plugin-transform-modules-commonjs",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-object-rest-spread",
     "dynamic-import-node"
   ],
   "env": {
     "test": {
       "presets": [
-        "react"
+        "@babel/preset-react"
       ]
     }
   }

@@ -8,10 +8,11 @@ import { getBundles } from 'react-loadable/webpack';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import { Helmet } from 'react-helmet';
+import defaultTemplate from './templates/apollo.html';
 import fetch from 'node-fetch';
 import Loadable from 'react-loadable';
-import matchRoutes from '../lib/matchRoutes';
-import not from '../lib/not';
+import matchRoutes from './lib/matchRoutes';
+import not from './lib/not';
 
 const isVendor = f => f.match(/vendor/);
 const isCss = f => f.match(/.css/);
@@ -25,28 +26,6 @@ const safeRequire = function(modulePath) {
     }
     else throw err;
   }
-};
-
-const defaultTemplate = ({ helmet, assets, styles, state, html }) => {
-  const { js, css } = assets;
-  const sheets = f => `<link type="text/css" rel="stylesheet" href="${f}" />`;
-  const scripts = f => `<script src="${f}"></script>`;
-  const apolloState = JSON.stringify(state).replace(/</g, '\\u003c');
-
-  return `<!doctype html>
-<html>
-<head>
-  ${helmet.title}
-  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.png">
-  ${css.map(sheets).join('\n  ')}
-  ${styles}
-</head>
-<body>
-  <div id="app">${html}</div>
-  <script>window.__APOLLO_STATE__ = ${apolloState};</script>
-  ${js.map(scripts).join('\n  ')}
-</body>
-</html>`;
 };
 
 const getAssets = (manifest, chunks = []) => {
@@ -81,39 +60,24 @@ const render = function(html, opts = {}) {
 /**
  * Returns a middleware function that can handle the rendering of React
  * components
- * @param  {Object}  options                     The rendering options.
- * @param  {Array}   options.routes              An array of react-router routes
- * @param  {Object}  options.AppComponent        Top level react component to
- *                                               render
- * @param  {Object}  options.apolloClientOptions Override the default
- *                                               apollo-client options.
- * @param  {Boolean} options.ssr                 Turn SSR on/off.
- * @param  {Object}  options.reactLoadableStats  If supplied, enables dynamic
- *                                               imports with react-loadable
- * @param  {Object}  options.graphqlUri          The URI to the GraphQL endpoint
- *                                               to connect to.
- * @param  {Object}  options.manifestPath        Path to asset manifest file
- *                                               from webpack. If supplied and
- *                                               the file exists, an `assets`
- *                                               object will be supplied to
- *                                               `templateFn` when rendering.
- * @param  {Object}  options.templateFn          A function that returns a
- *                                               template literal to render the
- *                                               base layout.
- *                                               If not provided, this will be
- *                                               rendered using the default
- *                                               template. The function will be
- *                                               called with the following
- *                                               object arguments:
- *                                               {
- *                                                 helmet,
- *                                                 assets,
- *                                                 styles,
- *                                                 state,
- *                                                 html
- *                                               }
- *
- * @return {Function} A middleware function that handles rendering of React
+ * @param {object} options - The rendering options.
+ * @param {array} options.routes - An array of react-router routes
+ * @param {object} options.AppComponent - Top level react component to render
+ * @param {object} options.apolloClientOptions  - Override the default options
+ *   for apollo-client.
+ * @param {boolean} options.ssr - Turn SSR on/off.
+ * @param {object} options.reactLoadableStats - If supplied, enables dynamic
+ *   imports with react-loadable
+ * @param {object} options.graphqlUri - The GraphQL endpoint to use.
+ * @param {object} options.manifestPath -  Path to asset manifest file from
+ *   webpack. If supplied and the file exists, an `assets` object will be
+ *   supplied to `templateFn` when rendering.
+ * @param {object} options.templateFn A function that returns a template literal
+ *   to render the base layout. If not provided, this will be rendered using the
+ *   default template. The function will be called with the following object
+ *   arguments:
+ *   { helmet, assets, styles, state, html }
+ * @return {function} A middleware function that handles rendering of React
  * components.
  */
 export default function ssrMiddleware(options = {}) {
