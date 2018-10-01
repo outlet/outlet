@@ -1,29 +1,16 @@
 {
-  "name": "@outlet/graphql",
+  "name": "@outlet/api-graphql",
   "description": "E-commerce GraphQL endpoint for Outlet",
   "version": "1.0.0-alpha.1",
   "license": "MIT",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/combine/saga.git"
+    "url": "https://github.com/outlet/outlet.git"
   },
   "engines": {
     "node": "8.x.x",
     "npm": "5.2.x"
-  },
-  "_moduleAliases": {
-    "@config": "config",
-    "@db": "server/db",
-    "@factories": "test/factories",
-    "@graphql": "server/graphql",
-    "@lib": "server/lib",
-    "@middleware": "server/middleware",
-    "@models": "server/models",
-    "@schemas": "server/models/schemas",
-    "@spec": "test/spec",
-    "@support": "test/support",
-    "@test": "test"
   },
   "scripts": {
     "console": "bnr console",
@@ -53,7 +40,7 @@
   "betterScripts": {
     "console": "node ./scripts/repl.js",
     "runner": "node ./scripts/runner.js",
-    "knex": "npx babel-node $(npm bin)/knex",
+    "knex": "npx babel-node $(npm bin)/knex --cwd ./ --knexfile ./app/database/knexfile.js",
     "db:create": "npx babel-node ./server/db/cli --task=create",
     "db:drop": "npx babel-node ./server/db/cli --task=drop",
     "db:migrate": "npm run knex -- migrate:latest",
@@ -74,14 +61,14 @@
       }
     },
     "dev:start": {
-      "command": "node ./server",
+      "command": "nodemon ./app/index.js --exec babel-node",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": true
       }
     },
     "prod:build": {
-      "command": "npx babel ./server -d ./dist",
+      "command": "npx babel ./app -d ./dist",
       "env": {
         "NODE_ENV": "production"
       }
@@ -105,64 +92,73 @@
       "command": "npx eslint --ext .js ."
     }
   },
+  "resolutions": {
+    "babel-core": "7.1.0-bridge.0"
+  },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.6",
-    "babel-jest": "^23.0.1",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-plugin-lodash": "^3.3.4",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-plugin-transform-export-extensions": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
-    "better-npm-run": "^0.1.0",
-    "debug": "^3.1.0",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "better-npm-run": "^0.1.1",
+    "debug": "^4.0.1",
     "dotenv": "^6.0.0",
     "dotenv-safe": "^6.0.0",
     "escape-string-regexp": "^1.0.5",
-    "eslint": "^5.2.0",
-    "eslint-plugin-babel": "^5.1.0",
+    "eslint": "^5.6.1",
+    "eslint-plugin-babel": "^5.2.1",
     "faker": "^4.1.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.4.1",
+    "jest": "^23.6.0",
     "node-dev": "^3.1.3",
-    "prettier-eslint": "^8.8.1",
-    "sinon": "^6.1.4",
+    "nodemon": "^1.18.4",
+    "prettier-eslint": "^8.8.2",
+    "sinon": "^6.3.4",
     "yn": "^2.0.0"
   },
   "dependencies": {
     "apollo-errors": "^1.9.0",
-    "apollo-resolvers": "^1.3.1",
-    "apollo-server": "^2.0.0",
-    "apollo-server-express": "^2.0.0",
+    "apollo-resolvers": "^1.4.1",
+    "apollo-server": "^2.1.0",
+    "apollo-server-express": "^2.1.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
-    "dayjs": "^1.6.9",
+    "dayjs": "^1.7.7",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
-    "graphql": "^0.13.2",
+    "graphql": "^14.0.2",
     "graphql-tag": "^2.9.2",
-    "graphql-tools": "^3.0.2",
-    "helmet": "^3.12.1",
+    "graphql-tools": "^4.0.0",
+    "helmet": "^3.13.0",
     "i18n": "^0.8.3",
-    "joi": "^13.4.0",
+    "joi": "^13.7.0",
     "knex": "^0.15.2",
     "knex-db-manager": "^0.4.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "module-alias": "^2.1.0",
     "moment": "^2.22.2",
     "numbro": "^2.1.0",
-    "objection": "^1.2.0",
-    "objection-auth": "^4.0.0",
+    "objection": "^1.3.0",
+    "objection-auth": "^4.1.0",
     "objection-slugify": "^3.0.1",
     "objection-unique": "^1.0.1",
     "pg": "^7.4.3",
     "pg-escape": "^0.2.0",
     "query-string": "^6.1.0",
-    "uuid": "^3.2.1",
-    "yup": "^0.26.0"
+    "uuid": "^3.3.2",
+    "yup": "^0.26.6"
   }
 }
