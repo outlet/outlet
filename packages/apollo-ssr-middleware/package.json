@@ -1,6 +1,6 @@
 {
-  "name": "apollo-client-ssr-express",
-  "description": "Server-rendering backend for apps built with Apollo Client and Express.",
+  "name": "apollo-ssr-middleware",
+  "description": "Server-rendering backend for apps built with Apollo Client and Connect-style apps.",
   "version": "0.1.0",
   "license": "MIT",
   "main": "./dist/index.js",
