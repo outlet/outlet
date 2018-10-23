@@ -21,9 +21,12 @@
     "@containers": "app/containers",
     "@hocs": "app/hocs",
     "@lib": "app/lib",
+    "@libs": "server/lib",
+    "@server": "server",
     "@pages": "app/pages",
     "@routes": "app/routes",
-    "@themes": "app/themes"
+    "@themes": "app/themes",
+    "@webpack": "../webpack"
   },
   "scripts": {
     "start": "bnr start",
@@ -112,6 +115,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.16.5",
     "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-dev-middleware": "^3.4.0",
     "webpack-hot-client": "^4.1.1",
     "webpack-manifest-plugin": "^2.0.3",
     "webpack-merge": "^4.1.4",
@@ -122,10 +126,10 @@
   "dependencies": {
     "apollo-cache-inmemory": "^1.2.7",
     "apollo-client": "^2.3.8",
-    "apollo-client-ssr-express": "0.1.0-alpha.8",
     "apollo-link": "^1.2.2",
     "apollo-link-context": "^1.0.8",
     "apollo-link-http": "^1.5.4",
+    "apollo-ssr-middleware": "^1.0.0",
     "cookie-parser": "^1.4.3",
     "dayjs": "^1.7.5",
     "formik": "^1.0.2",
