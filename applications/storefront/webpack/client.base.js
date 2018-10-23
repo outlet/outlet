@@ -120,7 +120,7 @@ export default {
   context: path.resolve(__dirname, '..', 'src'),
   mode: 'development',
   entry: {
-    app: ['./app/index']
+    app: ['./client/index']
   },
   devServer: {
     stats: {

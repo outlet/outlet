@@ -50,6 +50,7 @@ export const typeDef = gql`
       firstName: String!
       lastName: String
       role: String
+      username: String!
       email: String!
       password: String!
     ): User

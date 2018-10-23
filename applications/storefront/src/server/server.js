@@ -1,4 +1,6 @@
 import path from 'path';
+import helmet from 'helmet';
+import compression from 'compression';
 import ssrMiddleware from 'apollo-ssr-middleware';
 import routes from '@routes';
 import App from '@containers/App';
@@ -8,7 +10,7 @@ import express from 'express';
 import applyDevTools from '@libs/applyDevTools';
 
 const isDev = getEnv('NODE_ENV', 'development') === 'development';
-const outputPath = process.env.PUBLIC_OUTPUT_PATH;
+const publicPath = process.env.PUBLIC_OUTPUT_PATH;
 const server = express();
 
 if (isDev) {
@@ -16,6 +18,15 @@ if (isDev) {
     webpackConfig: require('@webpack/client.base').default
   });
 }
+
+server.use(helmet());
+server.use(compression());
+
+// serve built assets
+server.use(
+  '/assets',
+  express.static(path.join(__dirname, '..', '..', publicPath))
+);
 
 server.use(
   '*',
@@ -28,11 +39,9 @@ server.use(
       __dirname,
       '..',
       '..',
-      outputPath,
+      publicPath,
       'webpack-manifest.json'
-    ),
-    staticPath: '/assets',
-    staticPaths: [path.join(process.cwd(), '..', 'dist', 'public')]
+    )
   })
 );
 
