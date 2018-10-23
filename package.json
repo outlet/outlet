@@ -4,10 +4,11 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "start:graphql": "(cd graphql && npm start)",
-    "start:shop": "(cd shop && npm start)",
-    "start:cms": "(cd cms && npm start)",
-    "start:all": "npm run start:graphql & npm run start:shop & npm run start:cms"
+    "start": "npm run start:api & npm run start:storefront",
+    "start:api": "(cd applications/api-graphql && npm start)",
+    "start:api-graphql": "npm run start:api",
+    "start:cms": "(cd applications/cms && npm start)",
+    "start:storefront": "(cd applications/storefront && npm start)"
   },
   "author": "",
   "license": "ISC",

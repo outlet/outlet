@@ -1,7 +1,7 @@
 {
-  "name": "outlet-shop",
-  "description": "Full-featured shop app built with Outlet Client.",
-  "version": "1.0.0",
+  "name": "outlet-cms",
+  "description": "CMS backend for Outlet stores.",
+  "version": "1.0.0-alpha.1",
   "license": "MIT",
   "main": "./dist/index.js",
   "repository": {
@@ -12,13 +12,13 @@
     "node": "8.x.x",
     "npm": "5.2.x"
   },
-  "_cssModulesId": "[name]__[local]__[hash:base64:5]",
   "_moduleAliases": {
     "@assets": "app/assets",
     "@common": "app/components/common",
     "@components": "app/components",
     "@config": "config",
     "@containers": "app/containers",
+    "@helpers": "app/helpers",
     "@hocs": "app/hocs",
     "@lib": "app/lib",
     "@pages": "app/pages",
@@ -29,11 +29,6 @@
     "start": "bnr start",
     "serve": "bnr serve",
     "build": "bnr build",
-    "pretest": "bnr pretest --path=null",
-    "test": "bnr --path=null test",
-    "test:all": "bnr --path=null test:all",
-    "test:watch": "bnr --path=null test:watch",
-    "test:all:watch": "bnr --path=null test:all:watch",
     "lint": "bnr lint",
     "heroku-postbuild": "bnr prod:build"
   },
@@ -56,21 +51,6 @@
       "env": {
         "NODE_ENV": "production"
       }
-    },
-    "pretest": {
-      "command": "node ./test/support/init.js",
-      "env": {
-        "NODE_ENV": "test"
-      }
-    },
-    "test": {
-      "command": "npx jest -c ./test/support/jest.config.js --verbose --detectOpenHandles",
-      "env": {
-        "NODE_ENV": "test"
-      }
-    },
-    "test:watch": {
-      "command": "npm run test -- --watch"
     },
     "lint": {
       "command": "npx eslint --ext .js,.jsx ."
@@ -112,7 +92,7 @@
     "eslint": "^5.3.0",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-react": "^7.11.1",
     "expose-loader": "^0.7.5",
     "extract-css-chunks-webpack-plugin": "^3.0.11",
     "faker": "^4.1.0",
@@ -132,6 +112,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.16.5",
     "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^3.1.0",
     "webpack-hot-client": "^4.1.1",
     "webpack-manifest-plugin": "^2.0.3",
     "webpack-merge": "^4.1.4",
@@ -142,31 +123,28 @@
   "dependencies": {
     "apollo-cache-inmemory": "^1.2.7",
     "apollo-client": "^2.3.8",
-    "apollo-client-ssr-express": "0.1.0-alpha.8",
-    "apollo-link": "^1.2.2",
     "apollo-link-context": "^1.0.8",
     "apollo-link-http": "^1.5.4",
-    "cookie-parser": "^1.4.3",
     "dayjs": "^1.7.5",
     "formik": "^1.0.2",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
-    "helmet": "^3.13.0",
     "i18n": "^0.8.3",
     "lodash": "^4.17.10",
     "module-alias": "^2.1.0",
+    "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
     "react": "^16.4.2",
     "react-apollo": "^2.1.11",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.5.0",
+    "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.0.0",
     "rebass": "^2.1.0",
     "styled-components": "^3.4.2",
     "styled-system": "^3.0.2",
-    "webpack-cli": "^3.1.0",
     "yup": "^0.26.2"
   }
 }
